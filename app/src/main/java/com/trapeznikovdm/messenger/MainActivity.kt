@@ -4,17 +4,19 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.trapeznikovdm.messenger.databinding.ActivityMainBinding
+import com.trapeznikovdm.messenger.models.User
 import com.trapeznikovdm.messenger.ui.fragments.ChatsFragment
 import com.trapeznikovdm.messenger.ui.objects.AppDrawer
-import com.trapeznikovdm.messenger.utils.AUTH
-import com.trapeznikovdm.messenger.utils.replaceActivity
-import com.trapeznikovdm.messenger.utils.replaceFragment
+import com.trapeznikovdm.messenger.utils.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityMainBinding
-    private lateinit var appDrawer: AppDrawer
+    lateinit var appDrawer: AppDrawer
     private lateinit var mToolbar: Toolbar
 
 
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         if(AUTH.currentUser!=null){
             setSupportActionBar(mToolbar)
             appDrawer.create()
-            replaceFragment(ChatsFragment())
+            replaceFragment(ChatsFragment(), false)
         }else{
             replaceActivity(RegisterActivity())
         }
@@ -44,6 +46,14 @@ class MainActivity : AppCompatActivity() {
     private fun initFields() {
         mToolbar = mBinding.mainToolBar
         appDrawer = AppDrawer(this, mToolbar)
-        AUTH = FirebaseAuth.getInstance()
+        initFirebase()
+        initUser()
+    }
+
+    private fun initUser() {
+        REF_DATABASE_ROOT.child(NODE_USERS).child(UID)
+            .addListenerForSingleValueEvent(AppValueEventListener{
+                USER = it.getValue(User::class.java) ?:User()
+            })
     }
 }

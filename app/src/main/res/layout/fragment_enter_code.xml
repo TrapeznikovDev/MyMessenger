@@ -34,7 +34,7 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:text="Мы отправили SMS с кодом проверки на ваш телефон"
-        android:hint="- - - - - -"
+
         android:textColorHint="@color/md_blue_grey_400"
         android:textColor="@color/md_blue_grey_300"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,6 +48,8 @@
         android:layout_margin="16dp"
         android:autofillHints=""
         android:gravity="center"
+        android:hint="- - - - - -"
+        android:textColorHint="@color/md_blue_grey_300"
         android:inputType="phone"
         android:maxLength="6"
         android:padding="5dp"
