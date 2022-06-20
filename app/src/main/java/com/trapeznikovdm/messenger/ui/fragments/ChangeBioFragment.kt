@@ -26,6 +26,7 @@ class ChangeBioFragment : ChangeBaseFragment(R.layout.fragment_change_bio) {
                     showToast("Данные обновлены")
                     USER.bio = newBio
                     fragmentManager?.popBackStack()
+                    //
                 }
             }
     }
